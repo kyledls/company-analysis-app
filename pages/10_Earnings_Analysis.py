@@ -70,7 +70,7 @@ else:
             
             with streamlit.spinner("Creating summary..."):
                 summary = generate_summary(transcript)
-                streamlit.text_area("Summary:", summary, height=500)
+                streamlit.text_area("Summary:", summary, height=300)
                 
             with streamlit.spinner("Analyzing sentiment..."):
                 sentiment = analyze_sentiment(transcript)
