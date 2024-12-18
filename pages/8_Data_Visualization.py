@@ -9,9 +9,9 @@ api_key = os.getenv('FMP_API_KEY')
 
 ticker = streamlit.session_state.get('ticker', '')
 
-income_statement_url = f"https://financialmodelingprep.com/api/v3/income-statement/{ticker}?apikey={api_key}&limit=3"
-balance_sheet_url = f"https://financialmodelingprep.com/api/v3/balance-sheet-statement/{ticker}?apikey={api_key}&limit=3"
-cashflow_statement_url = f"https://financialmodelingprep.com/api/v3/cash-flow-statement/{ticker}?apikey={api_key}&limit=3"
+income_statement_url = f"https://financialmodelingprep.com/api/v3/income-statement/{ticker}?apikey={api_key}"
+balance_sheet_url = f"https://financialmodelingprep.com/api/v3/balance-sheet-statement/{ticker}?apikey={api_key}"
+cashflow_statement_url = f"https://financialmodelingprep.com/api/v3/cash-flow-statement/{ticker}?apikey={api_key}"
 
 income_statement_response = requests.get(income_statement_url).json()
 balance_sheet_response = requests.get(balance_sheet_url).json()

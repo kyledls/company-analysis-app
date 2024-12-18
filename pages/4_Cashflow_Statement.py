@@ -1,23 +1,23 @@
-import streamlit
-import requests
-import pandas
-import io
-from dotenv import load_dotenv
-import os
+import streamlit 
+import requests 
+import pandas 
+import io 
+from dotenv import load_dotenv 
+import os 
 
-load_dotenv()
-api_key = os.getenv('FMP_API_KEY')
+load_dotenv() 
+api_key = os.getenv('FMP_API_KEY') 
 ticker = streamlit.session_state.get('ticker', '') 
 cashflow_statement_url = f"https://financialmodelingprep.com/api/v3/cash-flow-statement/{ticker}?apikey={api_key}&limit=3" 
 
 cashflow_statement_api_response = requests.get(cashflow_statement_url) 
-cashflow_statement_data = cashflow_statement_api_response.json()
+cashflow_statement_data = cashflow_statement_api_response.json() 
 
 if not ticker: 
     streamlit.warning("Please enter a ticker on the home page first.") 
 else:
     streamlit.title(f"Cashflow Statement for {ticker}") 
-    cashflow_statement_mapping = {
+    cashflow_statement_mapping = { 
         "Net Income": "netIncome",
         "Depreciation & Amortization": "depreciationAndAmortization",
         "Stock-based Compensation": "stockBasedCompensation",
@@ -65,8 +65,8 @@ else:
         
         cashflow_statement_values[year] = year_values
 
-    cashflow_statement_dataframe = pandas.DataFrame(cashflow_statement_values)
-    cashflow_statement_dataframe = cashflow_statement_dataframe.rename_axis('Line Items')
+    cashflow_statement_dataframe = pandas.DataFrame(cashflow_statement_values) 
+    cashflow_statement_dataframe = cashflow_statement_dataframe.rename_axis('Line Items') 
     streamlit.dataframe(
         cashflow_statement_dataframe,
         width=1000,
@@ -81,10 +81,10 @@ else:
         engine='xlsxwriter'            
     )
     
-    streamlit.download_button(
+    streamlit.download_button( 
         label="Download Cashflow Statement as Excel", 
-        data=excel_output_file.getvalue(),                     
-        file_name=f'{ticker}_cashflow_statement.xlsx',           
+        data=excel_output_file.getvalue(),                      
+        file_name=f'{ticker}_cashflow_statement.xlsx', 
     )
 
 

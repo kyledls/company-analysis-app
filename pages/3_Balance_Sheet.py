@@ -1,23 +1,23 @@
-import streamlit
-import requests
+import streamlit 
+import requests 
 import pandas 
-import io
-from dotenv import load_dotenv
-import os
+import io 
+from dotenv import load_dotenv 
+import os 
 
-load_dotenv()
-api_key = os.getenv('FMP_API_KEY')
+load_dotenv() 
+api_key = os.getenv('FMP_API_KEY') 
 ticker = streamlit.session_state.get('ticker', '') 
-balance_sheet_statement_url = f"https://financialmodelingprep.com/api/v3/balance-sheet-statement/{ticker}?apikey={api_key}&limit=3" 
+balance_sheet_statement_url = f"https://financialmodelingprep.com/api/v3/balance-sheet-statement/{ticker}?apikey={api_key}" 
 
 balance_sheet_statement_api_response = requests.get(balance_sheet_statement_url) 
-balance_sheet_statement_data = balance_sheet_statement_api_response.json()
+balance_sheet_statement_data = balance_sheet_statement_api_response.json() 
 
 if not ticker: 
     streamlit.warning("Please enter a ticker on the home page first.") 
 else:
     streamlit.title(f"Balance Sheet Statement for {ticker}") 
-    balance_sheet_mapping = {
+    balance_sheet_mapping = { 
     "Cash & Short-term Investments": ["cashAndCashEquivalents", "shortTermInvestments"],
     "Accounts Receivable": "netReceivables",
     "Inventory": "inventory",
@@ -47,7 +47,7 @@ else:
     "Total Liabilities & Equity": "totalLiabilitiesAndStockholdersEquity"
 }
 
-    balance_sheet_statement_values = {}
+    balance_sheet_statement_values = {} 
  
     for year_data in balance_sheet_statement_data:
         year = year_data['date']

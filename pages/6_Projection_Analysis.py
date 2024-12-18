@@ -5,8 +5,8 @@ import plotly.graph_objects as plotly
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
-api_key = os.getenv('FMP_API_KEY')
+load_dotenv() 
+api_key = os.getenv('FMP_API_KEY') 
 ticker = streamlit.session_state.get('ticker', '') 
 income_statement_url = f"https://financialmodelingprep.com/api/v3/income-statement/{ticker}?apikey={api_key}&limit=3" 
 
@@ -15,27 +15,27 @@ if not ticker:
 else:
     streamlit.title(f"Projection Analysis for {ticker}") 
     income_statement_api_response = requests.get(income_statement_url) 
-    income_statement_data = income_statement_api_response.json()
+    income_statement_data = income_statement_api_response.json() 
 
     streamlit.subheader("5 Year Projections") 
-    streamlit.write("Adjust the assumptions using the text boxes below:")
+    streamlit.write("Adjust the assumptions using the text boxes below:") 
     
     latest_year = income_statement_data[0] 
-    latest_revenue = latest_year["revenue"]
+    latest_revenue = latest_year["revenue"] 
     latest_gross_profit = latest_year["grossProfit"] 
     latest_rd_expenses = latest_year["researchAndDevelopmentExpenses"] 
     latest_sga_expenses = latest_year.get("sellingGeneralAndAdministrativeExpenses", 0) 
     latest_tax_expenses = latest_year.get("incomeTaxExpenses", 0) 
 
     gross_margin = (latest_gross_profit / latest_revenue) * 100 
-    rd_ratio = (abs(latest_rd_expenses) / latest_revenue) * 100 if latest_rd_expenses else 0
-    sga_ratio = (abs(latest_sga_expenses) / latest_revenue) * 100 if latest_sga_expenses else 0
+    rd_ratio = (abs(latest_rd_expenses) / latest_revenue) * 100 if latest_rd_expenses else 0 
+    sga_ratio = (abs(latest_sga_expenses) / latest_revenue) * 100 if latest_sga_expenses else 0 
     tax_rate = (abs(latest_tax_expenses) / latest_year['incomeBeforeTax']) * 100 if latest_year['incomeBeforeTax'] != 0 else 0
 
-    col1, col2 = streamlit.columns(2)
+    col1, col2 = streamlit.columns(2) 
 
     with col1: 
-        revenue_growth_input = streamlit.number_input(
+        revenue_growth_input = streamlit.number_input( 
             "Revenue Growth (%)", 
             min_value=0.0, 
             max_value=100.0, 
@@ -43,37 +43,37 @@ else:
             help="Annual revenue growth rate" 
         )
                 
-        gross_margin_input = streamlit.number_input(  
+        gross_margin_input = streamlit.number_input( 
             "Gross Profit Margin (%)", 
             min_value=0.0, 
             max_value=100.0, 
-            value=gross_margin,
-            step=0.1
+            value=gross_margin, 
+            step=0.1 
         )
 
     with col2:
-        rd_percent_of_sales_input = streamlit.number_input(
+        rd_percent_of_sales_input = streamlit.number_input( 
             "R&D % of Sales", 
             min_value=0.0, 
             max_value=100.0, 
-            value=rd_ratio,
-            step=0.1
+            value=rd_ratio, 
+            step=0.1 
         )
             
-        sga_percent_of_sales_input = streamlit.number_input(
+        sga_percent_of_sales_input = streamlit.number_input( 
             "SG&A % of Sales", 
             min_value=0.0, 
             max_value=100.0, 
-            value=sga_ratio,
-            step=0.1
+            value=sga_ratio, 
+            step=0.1 
         )
 
-    tax_rate_input = streamlit.number_input(
+    tax_rate_input = streamlit.number_input( 
         "Tax Rate (%)", 
         min_value=0.0, 
         max_value=100.0, 
-        value=tax_rate,
-        step=0.1
+        value=tax_rate, 
+        step=0.1 
     )
 
     number_of_years = 5
